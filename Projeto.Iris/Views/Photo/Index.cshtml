@@ -1,0 +1,100 @@
+﻿@{
+    ViewData["Title"] = "Photos Register";
+}
+
+
+<a asp-controller="User" asp-action="Index" class="btn btn-outline-primary">Dash</a>
+<div class="d-flex flex-column align-items-center justify-content-center">
+
+    @if (ViewBag.images?.Count < 3 || ViewBag.images == null)
+    {
+        <h1>Agora registre suas fotos!</h1>
+        <span class="text-danger">*é necessário ter uma web cam ou camera conectada no computador para tirar as fotos</span>
+  
+
+        <form class="mt-4 mb-4" id="camera-form">
+            <div id="camera"></div>
+            <input type=button id="takeshot" value="Tirar Foto" onClick="takeSnapshot()" class="btn btn-primary">
+        </form>
+
+        <div id="result">
+        </div>
+    }
+
+
+
+    @if (ViewBag.images != null)
+    {
+        <h4 class="mt-4 mb-4">Imagens Registradas</h4>
+        <div class="register-images">
+
+            @foreach (var item in ViewBag.images)
+            {
+                <img src="@item" />
+            }
+
+        </div>
+        <form class="mt-4 mb-4" asp-action="NewPhotos">
+            <input type="submit" value="Tirar Fotos Novas" class="btn btn-primary">
+        </form>
+    }
+</div>
+
+
+@section scripts {
+
+    @if (ViewBag.images?.Count < 3 || ViewBag.images == null)
+    {
+        <script type="text/javascript" src="~/lib/webcamjs/webcam.min.js"></script>
+        <script>
+
+            Webcam.set({
+                width: 360,
+                height: 360,
+                image_format: 'jpeg',
+                jpeg_quality: 100
+            });
+
+            Webcam.attach('#camera');
+
+            function takeSnapshot() {
+                Webcam.snap(function (data_uri) {
+                    document.getElementById("result").hidden = false;
+
+                    document.getElementById('result').innerHTML =
+                        '<img id="base64image" src="' + data_uri + '"/>'
+                        + '<p>Imagem atual</p>'
+                        + '<input type=button value="Refazer Foto" onClick="reOpenCam()" class="btn btn-primary">'
+
+                    document.getElementById("camera-form").hidden = true;
+                });
+
+                var file = document.getElementById("base64image").src;
+     
+
+                var formdata = new FormData();
+                formdata.append("base64image", file);
+
+                setTimeout(function () {
+                    if (confirm("Deseja salvar esta foto?")) {
+
+                        $.ajax({
+                            url: `http://localhost:${window.location.origin.split(/\:/).pop()}/Photo/SavePhoto`,
+                            type: "POST",
+                            data: formdata,
+                            processData: false,
+                            contentType: false
+                        }).then(function() {
+                            window.location.reload()
+                        });
+                    }
+                }, 1000)
+            }
+
+            function reOpenCam() {
+                document.getElementById("camera-form").hidden = false;
+                document.getElementById("result").hidden = true;
+            }
+        </script>
+    }
+}

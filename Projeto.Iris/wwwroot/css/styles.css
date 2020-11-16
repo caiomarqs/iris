@@ -1,0 +1,108 @@
+﻿.nav-logo {
+    height: 2.5rem;
+    margin-right: .5rem;
+}
+
+.home-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+}
+
+    .home-brand > img {
+        width: 55%;
+        max-width: 280px;
+        margin: 2rem 0 4rem 0;
+    }
+
+
+.login-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+}
+
+    .login-brand > img {
+        width: 55%;
+        max-width: 220px;
+        margin: 2rem 0 4rem 0;
+    }
+
+
+.cadastro-infos {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2rem;
+}
+
+    .cadastro-infos > .text-danger {
+        font-size: 10pt;
+        font-weight: bold;
+    
+    }
+
+#camera-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.error-login {
+    width: 100%;
+    height: 42px;
+    display: none;
+}
+
+.error-close {
+    outline: none;
+    background: none;
+    border: none;
+    color: white;
+}
+
+    .error-close:focus {
+        outline: none;
+    }
+
+#error-area > span {
+    color: white;
+    margin-right: .5rem;
+    font-weight: 700;
+}
+
+.register-images{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+}
+
+#result {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 0
+}
+
+#result > img {
+
+    width: 360px;
+    height: 270px;
+}
+
+#result > p {
+    font-weight: 700;
+    margin-top: 1rem;
+}
+
+
+.register-images {
+    width: 100%
+
+}
+
+    .register-images > img {
+        width: 360px;
+        height: 270px;
+    }

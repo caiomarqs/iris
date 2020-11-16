@@ -1,0 +1,63 @@
+﻿@model LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+@section ErrorsLogin{
+    <div class="error-login bg-danger" id="error-login">
+        <div class="col d-flex flex-row align-items-center" id="error-area">
+            <span asp-validation-for="EmailLogin" id="error-email"></span>
+            <span asp-validation-for="EmailLogin" id="error-pass"></span>
+            <span>@TempData["login-error"]</span>
+        </div>
+        <button class="error-close" onclick="closeErrorLogin()">Fechar</button>
+    </div>
+}
+
+
+<div class="text-center">
+    <h1 class="display-4">Faça seu login</h1>
+
+    <div class="login-brand">
+        <img src="~/img/logo.png" />
+
+        <form class="form-inline my-2 my-lg-0" asp-controller="Login" asp-action="SetLogin"  id="login-form">
+            <input class="form-control mr-sm-2" type="text" placeholder="Email" asp-for="EmailLogin">
+            <input class="form-control mr-sm-2" type="password" placeholder="Senha" asp-for="PasswordLogin">
+            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Login</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+
+        const errorDiv = document.getElementById('error-login')
+        function closeErrorLogin() {
+            errorDiv.style.display = 'none'
+        }
+
+        function openErrorLogin() {
+            errorDiv.style.display = 'flex'
+        }
+
+        $(document).ready(function () {
+            const errorEmail = document.getElementById('error-email').innerHTML
+            const errorPass = document.getElementById('error-pass').innerHTML
+
+            if (errorEmail !== "" || errorPass !== "") {
+                openErrorLogin()
+            }
+        })
+    </script>
+
+    @if (TempData["login-error"] != null)
+    {
+        <script>
+            $(document).ready(function () {
+                openErrorLogin()
+            });
+        </script>
+    }
+}

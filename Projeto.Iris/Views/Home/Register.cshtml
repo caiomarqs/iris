@@ -1,0 +1,55 @@
+﻿@model User
+
+@{
+    ViewData["Title"] = "Cadastro";
+}
+
+<h1>Faça seu cadastro!</h1>
+
+<div class="cadastro-infos mb-2">
+    <span class="mt">Complete as informações abiaxo, para fazer sue cadastro</span>
+</div>
+
+<message text="@TempData["error-msg"]" alert-type="danger"></message>
+
+<form asp-action="Register">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Cpf"></label>
+        <input asp-for="Cpf" class="form-control"/>
+        <span asp-validation-for="Cpf" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <input asp-for="Password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <input type="submit" value="Cadastrar" class="btn btn-primary" />
+</form>
+
+@section scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js">
+    </script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js">
+    </script>
+
+    @*Ignorar a validação em real time do login quando ele tava header*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#login-form').removeData('validator');
+            $('#login-form').removeData('unobtrusiveValidation');
+            $('#login-form').validate().cancelSubmit = true;
+        })
+    </script>
+}
+

@@ -1,0 +1,66 @@
+﻿@model  User
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Iris | @ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/styles.css" />
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/img/logo.png" class="nav-logo" /></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+
+                        @if (ViewBag.userId == null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Home" asp-action="Register">Cadastrar</a>
+                            </li>
+                        }
+                    </ul>
+
+                    @if (ViewBag.userId == null)
+                    {
+                        <a class="btn btn-outline-primary my-2 my-sm-0" asp-controller="Login" asp-action="Index">Login</a>
+                    }
+                    else
+                    {
+                        <a asp-controller="User" asp-action="Edit" class="mr-4">@ViewBag.userName</a>
+                        <form class="form-inline my-2 my-lg-0" asp-controller="Login" asp-action="Logout" id="login-form">
+                            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Sair</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        </nav>
+    </header>
+    @RenderSection("ErrorsLogin", required: false)
+    <div class="container">
+        <main role="main" class="pb-3 pt-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - Iris
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
