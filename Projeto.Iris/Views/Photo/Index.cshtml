@@ -78,7 +78,8 @@
                         if (confirm("Deseja salvar esta foto?")) {
 
                             $.ajax({
-                                url: `http://localhost:${window.location.origin.split(/\:/).pop()}/Photo/SavePhoto`,
+                                url: '@Url.Action("SavePhoto","Photo")',
+                                //url: `http://localhost:${window.location.origin.split(/\:/).pop()}/Photo/SavePhoto`,
                                 type: "POST",
                                 data: formdata,
                                 processData: false,
