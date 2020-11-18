@@ -27,7 +27,7 @@ namespace Projeto.Iris
         {
             services.AddControllersWithViews();
             services.AddDbContext<IrisContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("conn"))
+                options.UseSqlServer(Configuration.GetConnectionString("azure"))
             );
             services.AddHttpContextAccessor();
             services.AddScoped<IUserRepository, UserRepository>();
@@ -49,7 +49,7 @@ namespace Projeto.Iris
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseStaticFiles();
-            
+
             //Uso de sessao
             app.UseSession();
             

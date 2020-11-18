@@ -110,6 +110,7 @@ namespace Projeto.Iris.Controllers
             {
                 file.Delete();
             }
+            userDirectory.Delete();
 
             return RedirectToAction("Index");
         }

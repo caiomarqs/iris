@@ -2,7 +2,6 @@
     ViewData["Title"] = "Photos Register";
 }
 
-
 <a asp-controller="User" asp-action="Index" class="btn btn-outline-primary">Dash</a>
 <div class="d-flex flex-column align-items-center justify-content-center">
 
@@ -10,7 +9,6 @@
     {
         <h1>Agora registre suas fotos!</h1>
         <span class="text-danger">*é necessário ter uma web cam ou camera conectada no computador para tirar as fotos</span>
-  
 
         <form class="mt-4 mb-4" id="camera-form">
             <div id="camera"></div>
@@ -41,60 +39,61 @@
 </div>
 
 
-@section scripts {
+@section Scripts {
 
     @if (ViewBag.images?.Count < 3 || ViewBag.images == null)
-    {
-        <script type="text/javascript" src="~/lib/webcamjs/webcam.min.js"></script>
-        <script>
+        {
+            <script type="text/javascript" src="~/lib/webcamjs/webcam.min.js"></script>
+            <script>
 
-            Webcam.set({
-                width: 360,
-                height: 360,
-                image_format: 'jpeg',
-                jpeg_quality: 100
-            });
-
-            Webcam.attach('#camera');
-
-            function takeSnapshot() {
-                Webcam.snap(function (data_uri) {
-                    document.getElementById("result").hidden = false;
-
-                    document.getElementById('result').innerHTML =
-                        '<img id="base64image" src="' + data_uri + '"/>'
-                        + '<p>Imagem atual</p>'
-                        + '<input type=button value="Refazer Foto" onClick="reOpenCam()" class="btn btn-primary">'
-
-                    document.getElementById("camera-form").hidden = true;
+                Webcam.set({
+                    width: 360,
+                    height: 360,
+                    image_format: 'jpeg',
+                    jpeg_quality: 100,
+                    flip_horiz: true,
                 });
 
-                var file = document.getElementById("base64image").src;
-     
+                Webcam.attach('#camera');
 
-                var formdata = new FormData();
-                formdata.append("base64image", file);
+                function takeSnapshot() {
+                    Webcam.snap(function (data_uri) {
+                        document.getElementById("result").hidden = false;
 
-                setTimeout(function () {
-                    if (confirm("Deseja salvar esta foto?")) {
+                        document.getElementById('result').innerHTML =
+                            '<img id="base64image" src="' + data_uri + '"/>'
+                            + '<p>Imagem atual</p>'
+                            + '<input type=button value="Refazer Foto" onClick="reOpenCam()" class="btn btn-primary">'
 
-                        $.ajax({
-                            url: `http://localhost:${window.location.origin.split(/\:/).pop()}/Photo/SavePhoto`,
-                            type: "POST",
-                            data: formdata,
-                            processData: false,
-                            contentType: false
-                        }).then(function() {
-                            window.location.reload()
-                        });
-                    }
-                }, 1000)
-            }
+                        document.getElementById("camera-form").hidden = true;
+                    });
 
-            function reOpenCam() {
-                document.getElementById("camera-form").hidden = false;
-                document.getElementById("result").hidden = true;
-            }
-        </script>
-    }
+                    var file = document.getElementById("base64image").src;
+
+
+                    var formdata = new FormData();
+                    formdata.append("base64image", file);
+
+                    setTimeout(function () {
+                        if (confirm("Deseja salvar esta foto?")) {
+
+                            $.ajax({
+                                url: `http://localhost:${window.location.origin.split(/\:/).pop()}/Photo/SavePhoto`,
+                                type: "POST",
+                                data: formdata,
+                                processData: false,
+                                contentType: false
+                            }).then(function () {
+                                window.location.reload()
+                            });
+                        }
+                    }, 1000)
+                }
+
+                function reOpenCam() {
+                    document.getElementById("camera-form").hidden = false;
+                    document.getElementById("result").hidden = true;
+                }
+            </script>
+        }
 }
