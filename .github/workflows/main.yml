@@ -31,5 +31,5 @@ jobs:
       with:
         app-name: 'iris-dev-dotnetapp'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_2acdba317e4d45dcae6c0b0ea23807a1 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile }}
         package: ${{env.DOTNET_ROOT}}/Projeto.Iris
