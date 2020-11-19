@@ -62,9 +62,15 @@ namespace Projeto.Iris.Repositories
             var findUser = _context.Users.Include(user => user.Photos)
                                          .Where(user => user.UserId == userId);
 
-            if (findUser.First()?.Photos?.Count > 0) 
+            try
             {
-                return findUser.First().Photos.ToList();
+                if (findUser.First()?.Photos?.Count > 0)
+                {
+                    return findUser.First().Photos.ToList();
+                }
+            }
+            catch {
+                return null;
             }
 
             return null;

@@ -52,28 +52,19 @@ namespace Projeto.Iris.Controllers
             ViewBag.userName = HttpContext.Session.GetString("userName");
 
             var findUser = _userRepository.FindById(int.Parse(userId));
-            return View();
+            return View(findUser);
         }
 
         [HttpPost]
         public IActionResult Edit(User user)
         {
 
-            var findUser = _userRepository.FindByEmail(user.Email);
-
-            if (findUser == null)
-            {
-                string passwordHash = BCrypt.Net.BCrypt.HashPassword(user.Password);
-                user.Password = passwordHash;
-                _userRepository.Update(user);
-                _userRepository.Save();
-                return RedirectToAction("Index", "User");
-            }
-            else
-            {
-                TempData["error-msg"] = "Email já cadastrado!";
-                return View();
-            }
+            string passwordHash = BCrypt.Net.BCrypt.HashPassword(user.Password);
+            user.Password = passwordHash;
+            _userRepository.Update(user);
+            _userRepository.Save();
+            SetSession(user);
+            return View();
         }
 
         [HttpPost]
@@ -83,16 +74,18 @@ namespace Projeto.Iris.Controllers
             var photos = _photoRepository.ListAllByUserId(userId);
             DirectoryInfo userDirectory = new DirectoryInfo(Path.Combine(serverRootPath, "Images/" + userId));
 
-            foreach (var photo in photos)
-            {
-                _photoRepository.Remove(photo.PhotoId);
-                _photoRepository.Save();
+            if (photos != null) {
+                foreach (var photo in photos)
+                {
+                    _photoRepository.Remove(photo.PhotoId);
+                    _photoRepository.Save();
+                }
+                foreach (var file in userDirectory.GetFiles())
+                {
+                    file.Delete();
+                }
             }
-            foreach (var file in userDirectory.GetFiles())
-            {
-                file.Delete();
-            }
-
+  
             _userRepository.Remove(userId);
             _userRepository.Save();
             

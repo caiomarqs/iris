@@ -31,4 +31,28 @@
     </div>
 
     <input type="submit" value="Cadastrar" class="btn btn-primary" />
+    <button onclick="user.value = @Model.UserId" type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModal">Excluir</button>
 </form>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirmação</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Deseja realmente excluir o usuário?
+            </div>
+            <div class="modal-footer">
+                <form asp-action="Remove">
+                    <input type="hidden" name="userId" id="user" />
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+                    <button type="submit" class="btn btn-danger">Sim</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
